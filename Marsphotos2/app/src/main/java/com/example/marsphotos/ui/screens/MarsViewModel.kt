@@ -23,8 +23,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.marsphotos.model.MarsPhoto
 import com.example.marsphotos.network.MarsApi
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
+//import kotlinx.serialization.SerializationException
+//import kotlinx.serialization.json.Json
 import java.io.IOException
 
 //
@@ -54,10 +54,8 @@ class MarsViewModel : ViewModel() {
             try {
                 val listResult = MarsApi.retrofitService.getPhotos()
 
-                marsUiState = MarsUiState.Success("all photos: ${listResult}")
+                marsUiState = MarsUiState.Success("all photos: ${listResult.body()?.size}")
             } catch (e: IOException) {
-                marsUiState = MarsUiState.Error
-            } catch (e: SerializationException) {
                 marsUiState = MarsUiState.Error
             }
     }
