@@ -28,7 +28,7 @@ private val retrofit = Retrofit.Builder()
 
 interface MarsApiService{
     @GET("photos")
-    suspend fun getPhotos(): List<MarsPhoto>
+    suspend fun getPhotos(): Response<List<MarsPhoto>>
 }
 
 object MarsApi{
