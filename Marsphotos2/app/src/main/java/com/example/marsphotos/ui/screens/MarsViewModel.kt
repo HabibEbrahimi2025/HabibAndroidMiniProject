@@ -15,6 +15,7 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -32,7 +33,7 @@ import java.io.IOException
 //import com.example.marsphotos.network.MarsApi
 //import kotlinx.coroutines.launch
 
-
+val TAG: String="showerror"
 class MarsViewModel : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
     var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
@@ -53,9 +54,10 @@ class MarsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val listResult = MarsApi.retrofitService.getPhotos()
-
+                Log.i(TAG,listResult.toString())
                 marsUiState = MarsUiState.Success("all photos: ${listResult.body()?.size}")
             } catch (e: IOException) {
+                Log.e(TAG, e.message.toString())
                 marsUiState = MarsUiState.Error
             }
     }

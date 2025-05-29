@@ -11,7 +11,8 @@ import retrofit2.Retrofit
 import retrofit2.http.GET
 
 private  const val BASE_URL=
-    "https://android-kotlin-fun-mars-server.appspot.com"
+    "http://192.168.43.251:10001/"
+    //"https://android-kotlin-fun-mars-server.appspot.com"
     //"https://jsonplaceholder.typicode.com/"
 
 //private val retrofit=Retrofit.Builder()
