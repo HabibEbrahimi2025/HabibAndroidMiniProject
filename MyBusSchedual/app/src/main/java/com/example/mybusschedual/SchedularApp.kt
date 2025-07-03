@@ -6,6 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mybusschedual.navigationData.NavRouteData
 import com.example.mybusschedual.ui.item.AddingScreen
+import com.example.mybusschedual.ui.item.DetailScreen
+import com.example.mybusschedual.ui.item.MainScreen
 
 @Composable
 fun SchedularApp(){

@@ -5,8 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.mybusschedual.data.StationRepository
 
-class AddingScreenViewModel: ViewModel(){
+
+class AddingScreenViewModel(val stationRepository: StationRepository): ViewModel(){
     var busAllState by mutableStateOf(BusState())
 
     fun updateAllState(busDetails: BusDetails){

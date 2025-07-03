@@ -1,4 +1,4 @@
-package com.example.mybusschedual
+package com.example.mybusschedual.ui.item
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
