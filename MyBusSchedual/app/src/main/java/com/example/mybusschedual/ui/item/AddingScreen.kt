@@ -78,11 +78,10 @@ fun AddingScreen(
 
             Button(
                 onClick = {
-                    setBusDetails.busId=1
+//                    setBusDetails.busId=1
                     setBusDetails.busStationName=name
                     setBusDetails.busDeparture=departure
                     setBusDetails.basArrival=arrival
-
                     viewModel.updateAllState(setBusDetails)
 
                     viewModel.displayData()
