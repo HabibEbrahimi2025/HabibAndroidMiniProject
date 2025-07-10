@@ -1,32 +1,39 @@
 package com.example.mybusschedual.ui.item
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mybusschedual.data.Station
 import com.example.mybusschedual.data.StationRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
 class AddingScreenViewModel(val stationRepository: StationRepository): ViewModel(){
-    var busAllState by mutableStateOf(BusState())
+    var busAllState = MutableStateFlow(BusState())
 
     fun updateAllState(busDetails: BusDetails){
         if(checkValidate(busDetails)){
-            busAllState= BusState(allState = busDetails, checkValid = true)
-            val stationData:Station = changeToStation(busAllState.allState)
-
-            viewModelScope.launch {
-                try {
-                    stationRepository.insertStation(stationData)
-                }catch (e: Exception){
-                    Log.i("MyData","Some error happened")
-                }
-
+            busAllState.update {
+                it.copy(checkValid = true)
             }
+        }
+    }
+
+    fun saveData(busDetails: BusDetails){
+        busAllState.update {
+            it.copy(allState = busDetails)
+        }
+
+        val stationData:Station = changeToStation(busAllState.value.allState)
+        viewModelScope.launch {
+            try {
+                stationRepository.insertStation(stationData)
+            }catch (e: Exception){
+                Log.i("MyData","Some error happened")
+            }
+
         }
     }
 
@@ -39,13 +46,12 @@ class AddingScreenViewModel(val stationRepository: StationRepository): ViewModel
     }
 
     fun displayData(){
-        var data= " ${busAllState.allState.busId}  "
+        var data= " ${busAllState.value.allState.busStationName}  "
         Log.i("MyData", data)
-        Log.i("MyData", "${busAllState.allState.busStationName } ")
     }
 
     fun changeToStation(busDetails: BusDetails): Station{
-        val station: Station= Station(
+        val station = Station(
             id=busDetails.busId,
             busName = busDetails.busStationName,
             departureTime = busDetails.busDeparture,

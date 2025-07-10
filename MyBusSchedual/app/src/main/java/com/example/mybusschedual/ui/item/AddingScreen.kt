@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mybusschedual.AppModelProvider
-import java.nio.file.WatchEvent
 
 @Composable
 fun AddingScreen(
@@ -28,6 +28,7 @@ fun AddingScreen(
 ){
 
     val viewModel: AddingScreenViewModel= viewModel(factory = AppModelProvider.Factory)
+    val dataState = viewModel.busAllState.collectAsState()
     val setBusDetails: BusDetails= BusDetails()
 
     var name by remember { mutableStateOf("") }
@@ -50,7 +51,13 @@ fun AddingScreen(
                         text="Bus Station "
                     )
                 },
-                onValueChange = {name=it}
+                onValueChange = {
+                    name=it
+                    setBusDetails.busStationName=name
+                    setBusDetails.busDeparture=departure
+                    setBusDetails.basArrival=arrival
+                    viewModel.updateAllState(setBusDetails)
+                }
             )
 
 
@@ -61,7 +68,13 @@ fun AddingScreen(
                         text="Departure Time "
                     )
                 },
-                onValueChange = {departure=it}
+                onValueChange = {
+                    departure=it
+                    setBusDetails.busStationName=name
+                    setBusDetails.busDeparture=departure
+                    setBusDetails.basArrival=arrival
+                    viewModel.updateAllState(setBusDetails)
+                }
             )
 
 
@@ -72,21 +85,28 @@ fun AddingScreen(
                         text="Arrival Time "
                     )
                 },
-                onValueChange = {arrival=it}
+                onValueChange = {
+                    arrival=it
+                    setBusDetails.busStationName=name
+                    setBusDetails.busDeparture=departure
+                    setBusDetails.basArrival=arrival
+                    viewModel.updateAllState(setBusDetails)
+                }
             )
 
 
             Button(
                 onClick = {
-//                    setBusDetails.busId=1
                     setBusDetails.busStationName=name
                     setBusDetails.busDeparture=departure
                     setBusDetails.basArrival=arrival
                     viewModel.updateAllState(setBusDetails)
 
+                    viewModel.saveData(setBusDetails)
                     viewModel.displayData()
 
-                }
+                },
+                enabled = dataState.value.checkValid
             ) {
                 Text(
                     text="Save",
